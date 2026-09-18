@@ -1,0 +1,9 @@
+{
+  "name": "farlands",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "dev": "vite --host 127.0.0.1", "build": "vite build", "preview": "vite preview --host 127.0.0.1", "test": "node --test tests/timeline.test.js", "test:browser": "node tests/browser.mjs" },
+  "dependencies": { "three": "0.180.0" },
+  "devDependencies": { "vite": "6.3.6", "@playwright/test": "1.55.0" }
+}

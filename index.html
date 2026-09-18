@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#d5e5e4" />
+    <meta name="description" content="A small world. A different perspective. Scroll through the skies and discover six sides of Farlands." />
+    <title>Farlands — A little world of wonder</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%233c6250' d='M16 2 30 9v14L16 30 2 23V9z'/%3E%3Cpath fill='%239cbb8a' d='m16 2 14 7-14 7L2 9z'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <main id="journey" aria-label="Scroll through the Farlands voxel world">
+      <div class="stage">
+        <div class="sky-glow" aria-hidden="true"></div>
+        <header class="header">
+          <a class="wordmark" href="#" aria-label="Farlands, return to the sky"><svg viewBox="0 0 28 30" aria-hidden="true"><path d="m14 1 12 7v14l-12 7L2 22V8zM2 8l12 7 12-7M14 15v14"/></svg>farlands<span>®</span></a>
+          <span class="header-note">A LITTLE WORLD OF WONDER</span>
+          <button class="soundless" id="return-top" aria-label="Restart the journey">Back to the sky <span aria-hidden="true">↗</span></button>
+        </header>
+        <div class="intro" id="intro">
+          <p class="eyebrow">SOMEWHERE ABOVE THE ORDINARY</p>
+          <h1>A different<br /><em>perspective.</em></h1>
+          <p class="intro-description">Sometimes, all it takes is a little leap.</p>
+        </div>
+        <div id="scene" role="img" aria-label="Steve falling through a pastel sky onto a rotating miniature voxel world"></div>
+        <div class="loading" id="loading" role="status"><span></span>Finding our little world…</div>
+        <div class="error" id="error" hidden role="alert"><h2>The sky is taking a moment.</h2><p></p><button id="retry">Try again ↗</button></div>
+        <div class="chapter" id="chapter" aria-hidden="true"><span id="chapter-number">01 / 06</span><h2 id="chapter-title">A softer landing.</h2><p id="chapter-description">A little earth. An entirely new outlook.</p></div>
+        <footer class="footer">
+          <div class="edition">AN INTERACTIVE EXPLORATION<span>SMALL WORLD. ENDLESS PERSPECTIVES.</span></div>
+          <div class="scroll-cue"><span class="scroll-line"></span><span id="scroll-label">SCROLL TO TAKE THE LEAP</span></div>
+          <div class="progress" aria-label="Journey progress"><span id="progress-label">00</span><span class="progress-track"><i id="progress-bar"></i></span><span>100</span></div>
+        </footer>
+        <p class="sr-only" id="accessible-status" aria-live="polite">Above the clouds. Scroll to begin.</p>
+      </div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
