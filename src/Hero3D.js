@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Steve, WorldCube } from './models.js';
 import { ProceduralClouds } from './clouds.js';
+import { VoxelEnvironment } from './environment.js';
 import { CONFIG, sampleTimeline, mix } from './timeline.js';
 
 export class Hero3D {
@@ -9,6 +10,8 @@ export class Hero3D {
     this.disposed = false; this.progress = 0; this.target = 0; this.state = {};
     this.motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
     this.scene = new THREE.Scene();
+    // Atmospheric Minecraft render-distance haze blending seamlessly into pastel sky
+    this.scene.fog = new THREE.Fog('#d5e5e4', 22, 75);
     this.camera = new THREE.PerspectiveCamera(36, 1, .1, 140);
     this.scene.add(this.camera);
     const shadowCanvas = document.createElement('canvas');
@@ -30,9 +33,10 @@ export class Hero3D {
     this.renderer.toneMappingExposure = 1.12;
     container.appendChild(this.renderer.domElement);
     this.scene.add(new THREE.HemisphereLight('#fbf7e7', '#81998f', 2.5));
-    const sun = new THREE.DirectionalLight('#fff5d8', 2.6); sun.position.set(-6, 12, 9); this.scene.add(sun);
+    const sun = new THREE.DirectionalLight('#fff5d8', 2.7); sun.position.set(-6, 14, 9); this.scene.add(sun);
     const fill = new THREE.DirectionalLight('#c3d9e2', .7); fill.position.set(8, 3, -5); this.scene.add(fill);
     this.clouds = new ProceduralClouds(this.camera, innerWidth < 700);
+    this.environment = new VoxelEnvironment(this.scene);
     this.lookAt = new THREE.Vector3();
     this.axisZ = new THREE.Vector3(0, 0, 1); this.axisX = new THREE.Vector3(1, 0, 0);
     this.turn = new THREE.Quaternion();
@@ -111,6 +115,7 @@ export class Hero3D {
       this.contactShadow.material.opacity = (1 - state.fall) * (1 - state.air) ** 4;
     }
     this.clouds.update(state, this.camera.aspect);
+    this.environment.update(time, state);
     this.renderer.render(this.scene, this.camera);
     this.onUpdate(state);
     if (this.progress !== this.target) this.requestFrame();
@@ -128,6 +133,7 @@ export class Hero3D {
     };
   }
   disposeResources() {
+    this.environment?.dispose();
     const resources = new Set();
     this.scene.traverse(node => {
       if (node.geometry) resources.add(node.geometry);

@@ -22,8 +22,8 @@ export class ProceduralClouds {
     this.seeds = Array.from({ length: this.count }, (_, i) => {
       const cluster = Math.floor(i / 4), block = i % 4;
       return { x: (cluster % 4 - 1.5) * 3.5 + (block % 2) * 1.3,
-        y: (Math.floor(cluster / 4) - 1.5) * 2.6 + Math.floor(block / 2) * .9,
-        z: -8 - (cluster % 3) * 2, sx: 2.3 + Math.sin(i * 13) * .45, sy: 1.3 + Math.cos(i * 7) * .3 };
+        y: (Math.floor(cluster / 4) - 1.5) * 2.2 + Math.floor(block / 2) * .8,
+        z: -8 - (cluster % 3) * 2.2, sx: 3.2 + Math.sin(i * 13) * .6, sy: 0.9 + Math.cos(i * 7) * .25 };
     });
   }
   update(state, aspect) {
@@ -32,11 +32,12 @@ export class ProceduralClouds {
       // A full geometric wipe crosses the camera. At peak, overlapping blocks
       // fill the frustum; at rest they live around its periphery.
       const side = seed.x < 0 ? -1 : 1;
-      const drift = (1 - state.cloud) * (3.6 + state.reveal * 3.4 + Math.abs(seed.x) * .4);
+      const drift = (1 - state.cloud) * (3.8 + state.reveal * 3.6 + Math.abs(seed.x) * .4);
       const x = seed.x * Math.max(.8, aspect / 1.5) + side * drift;
       this.dummy.position.set(x, seed.y + (state.progress - .22) * 5, seed.z);
-      this.dummy.scale.set(seed.sx * (.65 + state.cloud * 1.15), seed.sy * (.65 + state.cloud * 1.35), .7 + state.cloud * .4);
-      this.dummy.rotation.set(.015, .025, 0);
+      // Flat, stepped Minecraft cloud slab proportions
+      this.dummy.scale.set(seed.sx * (.75 + state.cloud * 1.1), seed.sy * (.75 + state.cloud * 1.2), 1.6 + state.cloud * .6);
+      this.dummy.rotation.set(0, 0, 0); // Strictly axis-aligned voxel geometry
       this.dummy.updateMatrix(); this.mesh.setMatrixAt(i, this.dummy.matrix);
     }
     this.mesh.instanceMatrix.needsUpdate = true;

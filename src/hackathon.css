@@ -1027,3 +1027,435 @@ html { scroll-behavior: smooth; }
 }
 
 .fl-animate.visible { opacity: 1; transform: none; }
+
+/* =========================================================
+   VOXEL PILL BADGE — Farlands coordinate stamp / labels
+   ========================================================= */
+.voxel-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(60, 98, 80, 0.08);
+  border: 1px solid rgba(60, 98, 80, 0.18);
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--fl-accent);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.voxel-cube-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--fl-accent);
+  border-radius: 1px;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   VOXEL TAGS — inline block badge labels
+   ========================================================= */
+.voxel-tag {
+  display: inline-block;
+  border: 1px solid rgba(60, 98, 80, 0.22);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-family: 'DM Mono', 'Courier New', monospace;
+  letter-spacing: 1.5px;
+  font-size: 9px;
+  margin-right: 6px;
+  color: var(--fl-accent);
+}
+
+/* =========================================================
+   BLOCK CTA BUTTONS — tactile 3D press buttons
+   ========================================================= */
+.block-cta {
+  position: relative;
+  background: var(--fl-accent);
+  color: #fff;
+  border: none;
+  padding: 16px 32px;
+  font-family: var(--fl-font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 0 #1e3828, 0 6px 18px rgba(41,72,62,0.18);
+  transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
+}
+
+.block-cta:hover {
+  background: #2f5040;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #1e3828, 0 8px 24px rgba(41,72,62,0.22);
+}
+
+.block-cta:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #1e3828, 0 3px 10px rgba(41,72,62,0.14);
+}
+
+.btn-block-bevel {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 1px;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.block-cta-sec {
+  background: transparent;
+  color: var(--fl-accent);
+  border: 1.5px solid var(--fl-accent);
+  padding: 15px 32px;
+  font-family: var(--fl-font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.block-cta-sec:hover {
+  background: var(--fl-accent);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.block-cta-btn {
+  display: inline-block;
+  background: #c8dcd5;
+  color: var(--fl-ink);
+  border: none;
+  padding: 18px 40px;
+  border-radius: 6px;
+  font-family: var(--fl-font-body);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #8aaba0, 0 6px 18px rgba(41,72,62,0.14);
+  transition: background 0.2s, transform 0.1s, box-shadow 0.1s;
+}
+
+.block-cta-btn:hover {
+  background: #deeee8;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 0 #8aaba0, 0 10px 24px rgba(41,72,62,0.18);
+}
+
+.block-button {
+  background: none;
+  border: 1.5px dashed var(--fl-accent-light);
+  color: var(--fl-accent);
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--fl-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.block-button:hover { background: rgba(60,98,80,0.06); }
+.block-button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.block-button-primary {
+  background: var(--fl-accent);
+  color: #fff;
+  border: none;
+  padding: 16px 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--fl-font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 0 #1e3828;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.1s;
+}
+
+.block-button-primary:hover {
+  background: #2f5040;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #1e3828;
+}
+
+.block-button-primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #1e3828;
+}
+
+.block-icon-sm {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 4px;
+  font-size: 10px;
+}
+
+/* =========================================================
+   STAT BLOCK HEADERS
+   ========================================================= */
+.stat-block-header {
+  font-size: 8px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: rgba(200, 220, 213, 0.35);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-family: 'DM Mono', 'Courier New', monospace;
+}
+
+/* =========================================================
+   ABOUT CARD — VOXEL STYLE
+   ========================================================= */
+.card-voxel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.card-block-badge {
+  font-size: 8px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--fl-accent);
+  border: 1px solid rgba(60, 98, 80, 0.22);
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-family: 'DM Mono', 'Courier New', monospace;
+  text-transform: uppercase;
+}
+
+.card-dim-tag {
+  font-size: 8px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--fl-ink-muted);
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.card-icon-wrap {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+}
+
+.voxel-svg-icon {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(1px 1px 0px rgba(41,72,62,0.25));
+}
+
+/* =========================================================
+   TRACKS — DIMENSION PORTAL THEMES
+   ========================================================= */
+.track-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.dim-badge {
+  font-size: 8px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 2px 7px;
+  font-family: 'DM Mono', 'Courier New', monospace;
+  text-transform: uppercase;
+}
+
+.redstone-badge {
+  color: #b34b3a;
+  border-color: rgba(179, 75, 58, 0.35);
+  background: rgba(179, 75, 58, 0.06);
+}
+
+.ender-badge {
+  color: #7a55a8;
+  border-color: rgba(122, 85, 168, 0.35);
+  background: rgba(122, 85, 168, 0.06);
+}
+
+.farlands-badge {
+  color: #3c6250;
+  border-color: rgba(60, 98, 80, 0.35);
+  background: rgba(60, 98, 80, 0.06);
+}
+
+.dim-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Track card thematic left borders */
+.track-redstone {
+  border-left-color: #b34b3a !important;
+}
+
+.track-ender {
+  border-left-color: #7a55a8 !important;
+}
+
+.track-farlands {
+  border-left-color: #3c6250 !important;
+}
+
+.track-loot-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.loot-tag {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: var(--fl-ink-muted);
+  background: rgba(41, 72, 62, 0.06);
+  border: 1px solid rgba(41, 72, 62, 0.1);
+  border-radius: 3px;
+  padding: 3px 8px;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   TIMELINE — VOXEL BLOCK NUMBERS
+   ========================================================= */
+.voxel-block-number {
+  border-radius: 4px !important;
+  font-family: 'DM Mono', 'Courier New', monospace !important;
+  font-size: 14px !important;
+}
+
+.block-num-inner {
+  font-family: 'DM Mono', 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--fl-accent);
+}
+
+.timeline-step-meta {
+  font-size: 8px;
+  letter-spacing: 2.5px;
+  font-weight: 700;
+  color: var(--fl-accent-light);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-family: 'DM Mono', 'Courier New', monospace;
+}
+
+/* =========================================================
+   PRIZES — LOOT RARITY TAGS & TROPHIES
+   ========================================================= */
+.prize-rarity-tag {
+  font-size: 8px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 2px 8px;
+  display: inline-block;
+  margin-bottom: 14px;
+  font-family: 'DM Mono', 'Courier New', monospace;
+  text-transform: uppercase;
+}
+
+.rarity-legendary {
+  color: #c79a28;
+  border-color: rgba(199, 154, 40, 0.4);
+  background: rgba(199, 154, 40, 0.07);
+}
+
+.rarity-epic {
+  color: #7a55a8;
+  border-color: rgba(122, 85, 168, 0.4);
+  background: rgba(122, 85, 168, 0.07);
+}
+
+.rarity-rare {
+  color: #3c7a62;
+  border-color: rgba(60, 122, 98, 0.4);
+  background: rgba(60, 122, 98, 0.07);
+}
+
+.prize-trophy-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 14px;
+}
+
+.trophy-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(1px 2px 0px rgba(41,72,62,0.2));
+}
+
+.prize-second {
+  border-top: 4px solid #6ba3a8;
+}
+
+.prize-third {
+  border-top: 4px solid #507664;
+}
+
+/* =========================================================
+   REGISTRATION — INVENTORY SLOT EXTRAS
+   ========================================================= */
+.inv-slot-icon {
+  font-size: 11px;
+  margin-right: 4px;
+}
+
+/* =========================================================
+   FOOTER COORDINATES
+   ========================================================= */
+.footer-coords {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: rgba(200, 220, 213, 0.35);
+  text-transform: uppercase;
+  font-family: 'DM Mono', 'Courier New', monospace;
+}
+
+/* =========================================================
+   FAQ — QUESTION TEXT
+   ========================================================= */
+.faq-q-text {
+  flex: 1;
+  padding-right: 16px;
+}
+
