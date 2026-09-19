@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { CONFIG } from './timeline.js';
+import { CONFIG, mix } from './timeline.js';
 
 const loader = new GLTFLoader();
 const edgeMaterial = new THREE.LineBasicMaterial({ color: '#263b36', transparent: true, opacity: .19 });
@@ -72,6 +72,7 @@ export async function Steve() {
   const gltf = await loader.loadAsync(`${import.meta.env.BASE_URL}models/steve/output.gltf`);
   const solids = collectSolids(gltf);
   const group = new THREE.Group(), model = new THREE.Group();
+  model.rotation.order = 'YXZ';
   group.name = 'Steve'; group.add(model);
   const bounds = new THREE.Box3();
   for (const pieces of solids.values()) for (const g of pieces) { g.computeBoundingBox(); bounds.union(g.boundingBox); }
@@ -101,15 +102,58 @@ export async function Steve() {
     group, sourceMeshes: solids.size, articulated: !!parts.head,
     pose(state, reducedMotion) {
       const fall = state.fall, air = state.air, crouch = state.crouch;
-      model.rotation.set(-.13 * fall + .07 * air, .10 + .12 * fall, reducedMotion ? 0 : .07 * Math.sin(state.progress * 32) * fall);
+      const dive = state.diveTilt ?? 0;
+
+      // ── Body ───────────────────────────────────────────────────────────────
+      // Smooth transition from upright fall (gentle tilt) into intentional
+      // forward dive orientation (~68° forward pitch with 3/4 yaw for full profile visibility).
+      const baseRotX = -0.13 * fall + 0.07 * air;
+      const diveRotX = 1.18; // ~68° forward dive angle
+      const baseRotY = 0.10 + 0.12 * fall;
+      const diveRotY = 0.82; // 3/4 dynamic heading showing full body silhouette
+      model.rotation.set(
+        mix(baseRotX, diveRotX, dive),
+        mix(baseRotY, diveRotY, dive),
+        reducedMotion ? 0 : 0.07 * Math.sin(state.progress * 32) * fall * (1 - dive * 0.8) + (0.03 * Math.sin(state.progress * 20) * dive)
+      );
       model.scale.y = CONFIG.steveHeight / height * (1 - crouch);
+
       if (parts.head) {
-        parts.head.rotation.x = -.09 * fall + .12 * crouch;
-        parts.leftArm.rotation.set(-.38 * fall - .95 * air + 1.6 * crouch, 0, .15 * fall + .10 * air);
-        parts.rightArm.rotation.set(-.30 * fall - .85 * air + 1.6 * crouch, 0, -.15 * fall - .10 * air);
-        parts.leftLeg.rotation.set(.13 * fall + .27 * air + crouch, 0, .045 * fall);
-        parts.rightLeg.rotation.set(-.10 * fall + .19 * air + crouch, 0, -.045 * fall);
+        // ── Head ─────────────────────────────────────────────────────────────
+        // Lifts slightly to look forward in the direction of the dive toward the world.
+        const baseHeadX = -0.09 * fall + 0.12 * crouch;
+        const diveHeadX = -0.42; // head lifts to look forward
+        parts.head.rotation.set(mix(baseHeadX, diveHeadX, dive), 0, 0);
+
+        // ── Arms — skydiver diving silhouette (Ref Image 3) ──────────────────
+        // Arms extend wide outward (Z axis) and sweep backward/upward (Y axis)
+        // matching the skydiver wingspan silhouette.
+        parts.leftArm.rotation.set(
+          mix(-0.38 * fall - 0.95 * air + 1.6 * crouch, 0.05, dive),
+          mix(0, 0.42, dive),
+          mix(0.15 * fall + 0.10 * air, 1.42, dive)
+        );
+        parts.rightArm.rotation.set(
+          mix(-0.30 * fall - 0.85 * air + 1.6 * crouch, 0.05, dive),
+          mix(0, -0.42, dive),
+          mix(-0.15 * fall - 0.10 * air, -1.42, dive)
+        );
+
+        // ── Legs — raised behind the body (Ref Image 3) ──────────────────────
+        // Legs angle upward behind the body relative to the forward-tilted torso,
+        // with slight outward splay for stability and a natural skydiver profile.
+        parts.leftLeg.rotation.set(
+          mix(0.13 * fall + 0.27 * air + crouch, 1.05, dive),
+          0,
+          mix(0.045 * fall, 0.22, dive)
+        );
+        parts.rightLeg.rotation.set(
+          mix(-0.10 * fall + 0.19 * air + crouch, 1.05, dive),
+          0,
+          mix(-0.045 * fall, -0.22, dive)
+        );
       }
+
       // All poses are foot-anchored, including impact compression.
       group.position.set(0, 0, 0); group.updateMatrixWorld(true);
       footBounds.setFromObject(group);

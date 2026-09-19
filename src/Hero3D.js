@@ -83,9 +83,21 @@ export class Hero3D {
     const mobile = this.camera.aspect < .85;
     const distance = mix(mobile ? 1.65 : 1, mobile ? CONFIG.cameraMobileDistance : CONFIG.cameraDesktopDistance, state.reveal);
     const followY = mix(state.y + (mobile ? 2.05 : 2.55), 1.5, state.reveal);
+    const dive = state.diveTilt ?? 0;
+
+    // Camera smoothly follows Steve's descent and frames the diving silhouette:
+    // - Gentle pull-back in Z (camZPull) to keep the full wingspan / arm-spread in frame
+    // - Stable vertical tracking keeping Steve centered from sky drop through touchdown
+    const camZPull = dive * 1.5;
+
     this.lookAt.set(0, followY, 0);
-    this.camera.position.set(mix(CONFIG.cameraFallX, CONFIG.cameraWorldX, state.reveal) * distance, followY + mix(1.2, 4.5, state.reveal) * distance, mix(CONFIG.cameraFallZ, CONFIG.cameraWorldZ, state.reveal) * distance);
+    this.camera.position.set(
+      mix(CONFIG.cameraFallX, CONFIG.cameraWorldX, state.reveal) * distance,
+      followY + mix(1.2, 4.5, state.reveal) * distance,
+      (mix(CONFIG.cameraFallZ, CONFIG.cameraWorldZ, state.reveal) + camZPull) * distance
+    );
     this.camera.lookAt(this.lookAt);
+
     if (this.ready) {
       const index = Math.min(CONFIG.transitionCount - 1, Math.floor(state.worldTurn));
       const fraction = state.worldTurn - index;

@@ -1,4 +1,6 @@
 import './style.css';
+import './hackathon.css';
+
 import { Hero3D } from './Hero3D.js';
 import { BIOMES, range, smooth } from './timeline.js';
 

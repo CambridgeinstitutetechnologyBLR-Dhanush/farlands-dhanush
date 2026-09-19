@@ -6,6 +6,12 @@ export const CONFIG = Object.freeze({
   transitionDuration: 0.108, transitionCount: 5,
   cameraFallZ: 12, cameraWorldZ: 14, cameraFallX: 2.8, cameraWorldX: 7,
   cameraDesktopDistance: 1.22, cameraMobileDistance: 1.85,
+  // Dive phase: character tilts forward into diving pose as fall accelerates
+  // 0 -> 0.08: upright fall
+  // 0.08 -> 0.22: gradual smooth transition (upright -> 15° -> 30° -> 45° -> 60° -> 75°)
+  // 0.22 -> 0.32: full diving motion plunging toward Farlands world
+  // 0.32 -> 0.36: landing recovery flare into touchdown
+  diveStart: 0.08, divePeak: 0.22, diveEnd: 0.32,
 });
 export const BIOMES = [
   ['A softer landing.', 'A little earth. An entirely new outlook.'],
@@ -30,12 +36,17 @@ export function sampleTimeline(progress, out = {}) {
   out.intro = 1 - smooth(range(p, .025, .145));
   out.worldTurn = 0; out.currentBiomeIndex = 0; out.targetBiomeIndex = 0;
   out.jump = 0; out.crouch = 0; out.air = 0; out.phase = 'fall';
+  // Dive tilt envelope: smooth transition into dive, hold full dive, flare for landing
+  const diveIn = smooth(range(p, c.diveStart, c.divePeak));
+  const diveOut = 1 - smooth(range(p, c.diveEnd, c.contact));
+  out.diveTilt = diveIn * diveOut;
+  if (p >= c.diveStart && p < c.contact) out.phase = 'dive';
   const approach = range(p, .27, c.contact);
   out.y = p < .225 ? mix(c.fallHeight, 12, smooth(range(p, 0, .225)))
     : mix(12, c.landingY, approach * approach);
   out.fall = 1 - smooth(range(p, .29, c.contact));
   if (p >= c.contact) {
-    out.y = c.landingY; out.phase = 'rest';
+    out.y = c.landingY; out.phase = 'rest'; out.diveTilt = 0;
     out.crouch = p < c.settled ? .16 * Math.sin(Math.PI * range(p, c.contact, c.settled)) : 0;
   }
   if (p >= c.transitionsStart) {
@@ -54,3 +65,4 @@ export function sampleTimeline(progress, out = {}) {
   }
   return out;
 }
+
